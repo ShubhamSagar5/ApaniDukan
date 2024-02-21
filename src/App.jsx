@@ -14,6 +14,8 @@ import Signup from './pages/registration/Signup'
 import ProductInfo from './pages/produtInfo/ProductInfo'
 import Cart from './pages/cart/Cart'
 import Dashboard from './pages/admin/dashboard/Dashboard'
+import AddProduct from './pages/admin/pages/AddProduct'
+import UpdateProduct from './pages/admin/pages/UpdateProduct'
 
 
 function App() {
@@ -50,6 +52,14 @@ function App() {
     {
       path:'/cart',
       element:<Cart/>
+    },
+    {
+      path:'/addproduct',
+      element:<AddProduct/>
+    },
+    {
+      path:'/updateproduct',
+      element:<UpdateProduct/>
     },
     {
       path:'/*',
