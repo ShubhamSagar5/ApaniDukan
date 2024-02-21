@@ -9,6 +9,10 @@ import Dashboard from './pages/Dashboard'
 import NoPage from './pages/NoPage'
 import MyState from './context/myState'
 import AllProducts from './pages/AllProducts'
+import Login from './pages/registration/Login'
+import Signup from './pages/registration/Signup'
+import ProductInfo from './pages/produtInfo/ProductInfo'
+import Cart from './pages/cart/Cart'
 
 
 function App() {
@@ -29,6 +33,22 @@ function App() {
     {
       path:'/dashboard',
       element:<Dashboard/>
+    },
+    {
+      path:'/login',
+      element:<Login/>
+    },
+    {
+      path:'/signup',
+      element:<Signup/>
+    },
+    {
+      path:'/productinfo/:id',
+      element:<ProductInfo/>
+    },
+    {
+      path:'/cart',
+      element:<Cart/>
     },
     {
       path:'/*',
