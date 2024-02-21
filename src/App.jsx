@@ -5,7 +5,7 @@ import './App.css'
 import { Route, Router, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home'
 import Order from './pages/Order'
-import Dashboard from './pages/Dashboard'
+
 import NoPage from './pages/NoPage'
 import MyState from './context/myState'
 import AllProducts from './pages/AllProducts'
@@ -13,6 +13,7 @@ import Login from './pages/registration/Login'
 import Signup from './pages/registration/Signup'
 import ProductInfo from './pages/produtInfo/ProductInfo'
 import Cart from './pages/cart/Cart'
+import Dashboard from './pages/admin/dashboard/Dashboard'
 
 
 function App() {
