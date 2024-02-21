@@ -8,6 +8,7 @@ import Order from './pages/Order'
 import Dashboard from './pages/Dashboard'
 import NoPage from './pages/NoPage'
 import MyState from './context/myState'
+import AllProducts from './pages/AllProducts'
 
 
 function App() {
@@ -16,6 +17,10 @@ function App() {
     {
       path:'/',
       element:<Home/>
+    },
+    {
+      path:'/allproducts',
+      element:<AllProducts/>
     },
     {
       path:'/order',

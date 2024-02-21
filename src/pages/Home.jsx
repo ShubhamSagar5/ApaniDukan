@@ -4,14 +4,11 @@ import myContext from '../context/myContext'
 
 const Home = () => {
   
-  const context = useContext(myContext)
-  console.log(context)
+
 
   return (
-   <Layout>Home
-   <div>
-    name : {context.state.name}
-   </div>
+   <Layout>
+   
    </Layout>
   )
 }
