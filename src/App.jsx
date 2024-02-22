@@ -16,7 +16,8 @@ import Cart from './pages/cart/Cart'
 import Dashboard from './pages/admin/dashboard/Dashboard'
 import AddProduct from './pages/admin/pages/AddProduct'
 import UpdateProduct from './pages/admin/pages/UpdateProduct'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
  
@@ -70,8 +71,8 @@ function App() {
   return (
     <div><MyState>
     
-      <RouterProvider router={appRouter}/>
-   
+      <RouterProvider router={appRouter} />
+      <ToastContainer/>
    </MyState></div>
   
   )
