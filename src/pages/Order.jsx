@@ -2,10 +2,14 @@
 
 
 import React from 'react'
+import Layout from '../components/layout/Layout'
 
 const Order = () => {
   return (
-    <div>Order</div>
+    <Layout>
+      <div>Order</div>
+    </Layout>
+    
   )
 }
 

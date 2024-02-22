@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { Route, Router, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom'
+import { Navigate, Route, Router, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home'
 import Order from './pages/Order'
 
@@ -32,11 +32,11 @@ function App() {
     },
     {
       path:'/order',
-      element:<Order/>
+      element:<ProtectedRoutes><Order/></ProtectedRoutes>
     },
     {
       path:'/dashboard',
-      element:<Dashboard/>
+      element:<ProtectedRoutesForAdmin><Dashboard/></ProtectedRoutesForAdmin>
     },
     {
       path:'/login',
@@ -56,11 +56,11 @@ function App() {
     },
     {
       path:'/addproduct',
-      element:<AddProduct/>
+      element:<ProtectedRoutesForAdmin><AddProduct/></ProtectedRoutesForAdmin>
     },
     {
       path:'/updateproduct',
-      element:<UpdateProduct/>
+      element:<ProtectedRoutesForAdmin><UpdateProduct/></ProtectedRoutesForAdmin>
     },
     {
       path:'/*',
@@ -79,3 +79,26 @@ function App() {
 }
 
 export default App
+
+//Protected Route
+
+export const ProtectedRoutes = ({childern}) => {
+ const user = localStorage.getItem('user')
+ if(user){
+  return childern
+ }else{
+  return <Navigate to={'/login'}/>
+ }
+}
+
+//Admin
+
+export const ProtectedRoutesForAdmin = ({childern})=> {
+  const admin = JSON.parse(localStorage.getItem('user'))
+  
+  if(admin.user.email === 'shubham108@gmail.com'){
+    return childern
+  }else{
+    return <Navigate to={'/login'}/>
+  }
+}
