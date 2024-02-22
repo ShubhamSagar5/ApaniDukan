@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import myContext from '../../context/myContext'
 import { toast } from 'react-toastify'
 import { signInWithEmailAndPassword } from 'firebase/auth'
@@ -14,6 +14,7 @@ const Login = () => {
     const context = useContext(myContext)
     const  {loading,setLoading} = context
 
+    const navigate = useNavigate()
 
     const handleLogin = async() => {
         if(email === '' || password === ''){
@@ -35,7 +36,9 @@ const Login = () => {
                 progress: undefined,
                 theme: "colored",
               });
-              window.location.href='/'
+              navigate('/')
+              setEmail('')
+              setPassword('')
               setLoading(false);
             } catch (error) {
               toast.error('Sigin Failed', {

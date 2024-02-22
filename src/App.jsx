@@ -82,10 +82,11 @@ export default App
 
 //Protected Route
 
-export const ProtectedRoutes = ({childern}) => {
- const user = localStorage.getItem('user')
+export const ProtectedRoutes = ({children}) => {
+ const user = JSON.parse(localStorage.getItem('user'))
+ console.log(user)
  if(user){
-  return childern
+  return children
  }else{
   return <Navigate to={'/login'}/>
  }
@@ -93,11 +94,11 @@ export const ProtectedRoutes = ({childern}) => {
 
 //Admin
 
-export const ProtectedRoutesForAdmin = ({childern})=> {
+export const ProtectedRoutesForAdmin = ({children})=> {
   const admin = JSON.parse(localStorage.getItem('user'))
   
-  if(admin.user.email === 'shubham108@gmail.com'){
-    return childern
+  if(admin?.user?.email === 'shubham108@gmail.com'){
+    return children
   }else{
     return <Navigate to={'/login'}/>
   }
