@@ -5,7 +5,8 @@ import Modal from '../../components/modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFromCart } from '../../redux/cartslice';
 import { toast } from 'react-toastify';
-
+import { addDoc, collection } from 'firebase/firestore';
+import { fireDB } from '../../firebase/FirebaseConfig';
 const Cart = () => {
     const context = useContext(myContext)
     const { mode } = context;
@@ -38,6 +39,93 @@ const Cart = () => {
       localStorage.setItem('cart', JSON.stringify(cartItems));
     }, [cartItems])
 
+
+    const [name, setName] = useState("")
+  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
+
+  const key =''
+const keyS=''
+
+  const buyNow = async () => {
+    // validation 
+    if (name === "" || address == "" || pincode == "" || phoneNumber == "") {
+      return toast.error("All fields are required", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      })
+    }
+    const addressInfo = {
+      name,
+      address,
+      pincode,
+      phoneNumber,
+      date: new Date().toLocaleString(
+        "en-US",
+        {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }
+      )
+    }
+    console.log(addressInfo)
+
+    var options = {
+      key: key,
+      key_secret:keyS ,
+      amount: parseInt(grandTotal * 100),
+      currency: "INR",
+      order_receipt: 'order_rcptid_' + name,
+      name: "ApaniDukan",
+      description: "for testing purpose",
+      handler: function (response) {
+        // console.log(response)
+        toast.success('Payment Successful')
+        const paymentId = response.razorpay_payment_id
+        // store in firebase 
+        const orderInfo = {
+          cartItems,
+          addressInfo,
+          date: new Date().toLocaleString(
+            "en-US",
+            {
+              month: "short",
+              day: "2-digit",
+              year: "numeric",
+            }
+          ),
+          email: JSON.parse(localStorage.getItem("user")).user.email,
+          userid: JSON.parse(localStorage.getItem("user")).user.uid,
+          paymentId
+        }
+
+        try {
+          const result = addDoc(collection(fireDB, "orders"), orderInfo)
+        } catch (error) {
+          console.log(error)
+        }
+      },
+
+      theme: {
+        color: "#3399cc"
+      }
+
+
+    };
+    var pay = new window.Razorpay(options);
+    pay.open();
+    console.log(pay)
+  }
+
+
     return (
       <Layout >
       <div className="h-screen bg-gray-100 pt-5 " style={{ backgroundColor: mode === 'dark' ? '#282c34' : '', color: mode === 'dark' ? 'white' : '', }}>
@@ -45,7 +133,7 @@ const Cart = () => {
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0 ">
           <div className="rounded-lg md:w-2/3 ">
 
-            {cartItems?.map((item, index) => {
+            {cartItems.map((item, index) => {
               return (
                 <div className="justify-between mb-6 rounded-lg border  drop-shadow-xl bg-white p-6  sm:flex  sm:justify-start" style={{ backgroundColor: mode === 'dark' ? 'rgb(32 33 34)' : '', color: mode === 'dark' ? 'white' : '', }}>
                   <img src={item.imageUrl} alt="product-image" className="w-full rounded-lg sm:w-40" />
@@ -75,16 +163,17 @@ const Cart = () => {
             </div>
             <div className="flex justify-between">
               <p className="text-gray-700" style={{ color: mode === 'dark' ? 'white' : '' }}>Shipping</p>
-              <p className="text-gray-700" style={{ color: mode === 'dark' ? 'white' : '' }}>₹{cartItems.length ?  shipping : 0}</p>
+              <p className="text-gray-700" style={{ color: mode === 'dark' ? 'white' : '' }}>₹{shipping}</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between mb-3">
               <p className="text-lg font-bold" style={{ color: mode === 'dark' ? 'white' : '' }}>Total</p>
               <div className>
-                <p className="mb-1 text-lg font-bold" style={{ color: mode === 'dark' ? 'white' : '' }}>₹{ cartItems.length ?  grandTotal : 0}</p>
+                <p className="mb-1 text-lg font-bold" style={{ color: mode === 'dark' ? 'white' : '' }}>₹{grandTotal}</p>
               </div>
             </div>
-            <Modal />
+            <Modal name={name} address={address} pincode={pincode} phoneNumber={phoneNumber} setName={setName} setAddress={setAddress} setPincode={setPincode} setPhoneNumber={setPhoneNumber} buyNow={buyNow} />
+            
           </div>
         </div>
       </div>
